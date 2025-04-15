@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Ocean Energy sites in the North-East Atlantic</title>
+
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content='The dataset on ocean energy in the European seas was created in 2014 by AZTI for the European Marine Observation and Data Network (EMODnet). It is the result of the aggregation and harmonization of datasets provided by several sources from all across Europe. It is updated every year, and is available for viewing and download on EMODnet web portal (Human Activities, https://emodnet.ec.europa.eu/en/human-activities).' name='description'>
+    <meta content='Searchable Ocean Energy' name='Patricia Navarro Gonzalez'>
+
+    <!-- Facebook metadata -->
+    <meta content="Searchable Map Template - CSV" property="og:site_name">
+    <meta content="Searchable Map Template - CSV" property="og:title">
+    <meta content="website" property="og:type">
+    <meta content="You want to put your data on a searchable, filterable map. Provide a comma separated file (CSV) and this free, open source template will do the rest." property="og:description">
+    <meta content="https://searchable-map-template-csv.netlify.com/" property="og:url">
+    <meta content="https://searchable-map-template-csv.netlify.com/img/screenshot.jpg" property="og:image">
+    
+    <!-- Twitter metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@DataMadeCo">
+    <meta name="twitter:creator" content="@DataMadeCo">
+    <meta name="twitter:title" content="Searchable Map Template - CSV">
+    <meta name="twitter:url" content="https://searchable-map-template-csv.netlify.com/">
+    <meta name="twitter:description" content="You want to put your data on a searchable, filterable map. Provide a comma separated file (CSV) and this free, open source template will do the rest.">
+    <meta name="twitter:image:src" content="https://searchable-map-template-csv.netlify.com/img/screenshot.jpg">
+
+    <!-- Styles -->
+     <!-- Bootstrap cssS -->
+     <link rel="stylesheet" href="css/bootstrap.min.css">
+     <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"/>
+     <link rel="stylesheet" href="css/custom.css"/>
+ 
+     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+     <script src="lib/jquery-3.3.1.min.js"></script>
+     <script src="lib/popper.min.js"></script>
+     <script src="lib/bootstrap.min.js"></script>
+ 
+     <script src="lib/ejs.min.js"></script>
+     <script src="lib/jquery.address.js"></script>
+     <script src="lib/jquery.csv.min.js"></script>
+     <script src="lib/moment.js"></script>
+     <script src="lib/geojson.min.js"></script>
+     <script src="js/csv-to-geojson.js"></script>
+ 
+     <!-- Leaflet and Google -->
+     <link rel="stylesheet" href="css/leaflet.css"/>
+     <script src="lib/leaflet.js"></script>
+     <script src='lib/turf.min.js'></script>
+     <script src="https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyB0fuoGCdG3QpC0UpBq8vecinS_o0PgbyA"></script>
+     <script src="lib/Leaflet.GoogleMutant.js" ></script>
+     <script src="lib/leaflet-color-markers.js" ></script>
+     <script src="data/Emodnet_ocean_energy_locations_data_characters.csv"></script>
+     
+     <!-- Custom JavaScript -->
+     <script src="js/searchable_map_lib.js"></script>
+     <script src="js/map.js"></script>
+     <script src="js/analytics_lib.js"></script>
+    
+    <!---clear multiple selection-->
+    <link href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" />
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-light mb-2">
+      <a class="navbar-brand" href="/">
+        Ocean Energy sites in the North-East Atlantic
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse mr-auto" id="navbarsExampleDefault">
+        <ul class="navbar-nav ml-auto">
+          <li class='nav-item'>
+            <a class="nav-link active" href="/"><i class="fa fa-map-marker" aria-hidden="true"></i> Map</a>
+          </li>
+          <li class='nav-item'>
+            <a class="nav-link" href="/about.html"><i class="fa fa-info-circle" aria-hidden="true"></i> About</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main" class="container-fluid">
+
+      <div class="row">
+        <!-- Sidebar (left) -->
+        <div class="col-md-4">
+          <p>The dataset on ocean energy in the European seas was created in 2014 by AZTI for the European Marine Observation and Data Network (EMODnet). It is the result of the aggregation and harmonization of datasets provided by several sources from all across Europe. It is updated every year, and is available for viewing and download on EMODnet web portal (Human Activities, https://emodnet.ec.europa.eu/en/human-activities).</p>
+    
+          <div class="card bg-light">
+            <div class="card-body">
+              <div class='row'>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    Near an address
+                    <input class='form-control' id='search-address' placeholder='Enter an address' type='text'>
+                  </div>
+                </div>
+    
+                <div class="col-md-4">
+                  <div class='form-group'>
+                    Within
+                    <select id='search-radius' class='form-control'>
+                      <option value='5000'>5 km</option>
+                      <option value='10000'>10 km</option>
+                      <option value='25000'>25 km</option>
+                      <option value='100000'>100 km</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+    
+              <div class='row'>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    Search by name
+                    <input class='form-control' id='search-name' placeholder='Enter a name' type='text'>
+                  </div>
+                </div>
+              </div>
+    
+              <div id="filters">
+                <div class="form-group mb-3">
+                  <label>Filter by resource type</label><br>
+                  <label><input type="checkbox" class="resource-filter" value="Salinity gradient" checked> Salinity gradient</label>
+                  <label><input type="checkbox" class="resource-filter" value="Tidal" checked> Tidal</label>
+                  <label><input type="checkbox" class="resource-filter" value="Wave" checked> Wave</label>
+                  <label><input type="checkbox" class="resource-filter" value="Wave/Tidal" checked> Wave/Tidal</label>
+                  <label><input type="checkbox" class="resource-filter" value="Wave/Tidal/PV" checked> Wave/Tidal/PV</label>
+                  <label><input type="checkbox" class="resource-filter" value="Wave/Wind" checked> Wave/Wind</label>
+                  <label><input type="checkbox" class="resource-filter" value="Wave/Wind/PV" checked> Wave/Wind/PV</label>
+                </div>
+    
+                <div class="form-group mb-3">
+                  <label for="scale-filter">Filter by project scale</label>
+                  <select id="scale-filter" class="form-control" multiple>
+                    <option value="">All</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Commercial array">Commercial array</option>
+                    <option value="Demostration array">Demostration array</option>
+                    <option value="Pilot device">Pilot device</option>
+                    <option value="Pilot plant">Pilot plant</option>
+                    <option value="Pilot project">Pilot project</option>
+                    <option value="Pre-commercial">Pre-commercial</option>
+                    <option value="Sea-testing">Sea-testing</option>
+                  </select>
+                </div>
+    
+                <div class="form-group mb-3">
+                  <label for="status-filter">Filter by status </label>
+                  <select id="status-filter" class="form-control" multiple>
+                    <option value="">All</option>
+                    <option value="Cancelled">Cancelled</option>
+                    <option value="Ceased operating">Ceased operating</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Consented">Consented</option>
+                    <option value="Decomissioned">Decomissioned</option>
+                    <option value="Developement">Developement</option>
+                    <option value="Disconnected">Disconnected</option>
+                    <option value="Early concept">Early concept</option>
+                    <option value="In construction">In construction</option>
+                    <option value="In development">In development</option>
+                    <option value="In planning">In planning</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="Installed">Installed</option>
+                    <option value="Not progressed">Not progressed</option>
+                    <option value="Operational">Operational</option>
+                    <option value="Planned">Planned</option>
+                    <option value="Suspended">Suspended</option>
+                  </select>
+                </div>
+    
+                <button class='btn btn-primary' id="btnSearch"><i class='fa fa-search'></i> Search</button>
+                <a href="/" class='btn btn-secondary' id="btnReset" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i> Reset</a>
+                <button class='btn btn-dark' id='btnViewMode' title='Change view'><i class='fa fa-list'></i> List view</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Map and Results (right) -->
+        <div class="col-md-8">
+          <div id='mapCanvas' style="display: block; height: 1000px;"></div>
+          <div id="listCanvas" style="display: none">
+            <h2 class='list-header hidden-xs'>Search results <small id='list-result-count'></small></h2>
+    
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">NAME</th>
+                    <th scope="col">LOCATION</th>
+                    <th scope="col">RESOURCE</th>
+                    <th scope="col">CAPACITYkW</th>
+                  </tr>
+                </thead>
+                <tbody id='results-list'></tbody>
+              </table>
+            </div>
+          </div>
+            <!---Authorship-->
+            <p class='float-right'>
+              Author <a href='https://sites.google.com/imbrsea.eu/patricia-navarro-gonzalez/' target='_blank'>Patricia Navarro González</a>. 
+              Based on <a href='https://github.com/datamade/searchable-map-template-csv' target='_blank'>Searchable Map Template - CSV</a> by 
+              <a href='https://derekeder.com/' target='_blank'>Derek Eder</a> and 
+              <a href='https://datamade.us/' target='_blank'>DataMade</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="modal fade" id="modal-pop" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="container-fluid bd-example-row">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle" aria-hidden="true"></i></span></button>
+                      <div id="modal-main"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <script type="text/javascript" src="js/map.js"></script>
+
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+      new Choices('#scale-filter', { removeItemButton: true });
+      new Choices('#status-filter', { removeItemButton: true });
+    </script>
+  </body>
+</html>

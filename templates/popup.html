@@ -1,0 +1,51 @@
+<h4>
+    <%= obj["NAME"] %>    
+</h4>             
+<p>
+    <% if (obj["LOCATION"]) { %>
+        Location: <%= obj["LOCATION"] %><br />
+    <% } %>
+    
+    <% if (obj["RESOURCE"]) { %>
+        Type of resource: <%= obj["RESOURCE"] %><br />
+    <% } %>
+
+    <% if (obj["WEB_PAGE"]) { %>
+        <a href='<%= obj["WEB_PAGE"] %>' target='_blank'>Website</a>
+    <% } %>
+</p>
+
+<% if (obj["CAPACITYkW"]) { %>
+    <p>
+        <strong>CAPACITYkW</strong><br />
+        <%= obj["CAPACITYkW"] %>
+    </p>
+<% } %>
+
+<% if (obj["DEVICSCALE"]) { %>
+    <p>
+        <strong>DEVICSCALE</strong><br />
+        <%= obj["DEVICSCALE"] %>
+    </p>
+<% } %>
+
+<% if (obj["STARYEAR"]) { %>
+    <p>
+        <strong>STARTYEAR</strong><br />
+        <%= obj["STARTYEAR"] %>
+    </p>
+<% } %>
+
+<% if (obj["ENDYEAR"]) { %>
+    <p>
+        <strong>ENDYEAR</strong><br />
+        <%= obj["ENDYEAR"] %>
+    </p>
+<% } %>
+
+<% if (obj["TECHNOLOGY"]) { %>
+    <p>
+        <strong>TECHNOLOGY</strong><br />
+        <%= obj["TECHNOLOGY"] %>
+    </p>
+<% } %>
