@@ -415,7 +415,10 @@ legend.addTo(SearchableMapLib.map);
     if (RESOURCE == "Salinity gradient") return redIcon;
     if (RESOURCE == "Tidal") return blueIcon;
     if (RESOURCE == "Wave") return greenIcon;
-    if (RESOURCE == "Other") return yellowIcon;
+    if (RESOURCE == "Wave/Wind") return yellowIcon;
+    if (RESOURCE == "Wave/Tidal") return yellowIcon;
+    if (RESOURCE == "Wave/Wind/PV") return yellowIcon;
+    if (RESOURCE == "Wave/Wind/PV") return yellowIcon;
     return yellowIcon;
   },
   // -----end custom functions-----
