@@ -76,7 +76,7 @@ var SearchableMapLib = {
 
       // method that we will use to update the control based on feature properties passed
       var hover_template;
-      $.get( "../templates/hover.html", function( template ) {
+      $.get( "../templates/hover.ejs", function( template ) {
         hover_template = template;
       });
       SearchableMapLib.info.update = function (props) {
@@ -225,7 +225,7 @@ legend.addTo(SearchableMapLib.map);
     }
     else {
       var row_content;
-      $.get( "../templates/table-row.html", function( template ) {
+      $.get( "../templates/table-row.ejs", function( template ) {
           for (idx in SearchableMapLib.currentResults.features) {
             row_content = ejs.render(template, {obj: SearchableMapLib.currentResults.features[idx].properties});
 
@@ -256,9 +256,8 @@ legend.addTo(SearchableMapLib.map);
       console.log('launch modal')
       console.log(data);
     }
-
     var modal_content;
-    $.get( "../templates/popup.html", function( template ) {
+    $.get( "../templates/popup.ejs", function( template ) {
         modal_content = ejs.render(template, {obj: data});
         $('#modal-pop').modal();
         $('#modal-main').html(modal_content);
