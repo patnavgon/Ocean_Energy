@@ -8,7 +8,7 @@ $(window).resize(function () {
 $(function() {
 
   SearchableMapLib.initialize({
-    filePath: 'data/Emodnet_ocean_energy_locations_data_characters.csv',
+    filePath: 'data/emodnet_ocean_energy_locations_data_characters.csv',
     fileType: 'csv',
     recordName: 'ocean energy site',
     recordNamePlural: 'ocean energy sites',
